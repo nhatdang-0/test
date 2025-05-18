@@ -225,6 +225,8 @@
 
     let utterance;
 
+    const apiKey = '808e8232fd2b492db9681809734cc6de'; // API key VoiceRSS của bạn
+
     ttsBtn.addEventListener('click', () => {
       const text = inputText.value.trim();
       const fileName = fileNameInput.value.trim();
@@ -249,18 +251,34 @@
       if (utterance) utterance.volume = parseFloat(volumeControl.value);
     });
 
-    downloadBtn.addEventListener('click', () => {
-      const fileName = fileNameInput.value.trim();
-      const text = inputText.value.trim();
-      if (!fileName || !text) {
+    async function downloadMP3FromVoiceRSS(text, fileName) {
+      if (!text || !fileName) {
         alert('Vui lòng nhập tên file và văn bản!');
         return;
       }
-      const blob = new Blob([text], { type: 'text/plain' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `${fileName}.txt`;
-      a.click();
+
+      const url = `https://api.voicerss.org/?key=${apiKey}&hl=vi-vn&c=MP3&f=48khz_16bit_stereo&src=${encodeURIComponent(text)}`;
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Lỗi tải âm thanh');
+
+        const blob = await response.blob();
+        const audioUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = audioUrl;
+        a.download = `${fileName}.mp3`;
+        a.click();
+      } catch (err) {
+        alert('Không thể tạo file âm thanh. Vui lòng thử lại!');
+        console.error(err);
+      }
+    }
+
+    downloadBtn.addEventListener('click', () => {
+      const fileName = fileNameInput.value.trim();
+      const text = inputText.value.trim();
+      downloadMP3FromVoiceRSS(text, fileName);
     });
 
     shareBtn.addEventListener('click', () => {
