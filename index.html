@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chuyển Văn Bản Thành Giọng Nói - Nhật Đăng</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Comfortaa', cursive, sans-serif;
+      background: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .scene {
+      position: relative;
+      width: 460px;
+      min-height: 650px;
+      background: #d7f0d9;
+      border-radius: 30px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      padding: 40px 30px 60px 30px;
+      overflow: hidden;
+    }
+
+    h1 {
+      color: #2b5329;
+      font-weight: 900;
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 25px;
+      text-shadow: 1px 1px 2px #a4d06f;
+    }
+
+    label {
+      color: #3a6b35;
+      font-size: 15px;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 18px;
+      border: 2px solid #89b362;
+      font-size: 16px;
+      outline: none;
+      font-family: 'Comfortaa', cursive, sans-serif;
+      transition: border-color 0.3s ease;
+    }
+
+    textarea {
+      height: 140px;
+      resize: none;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #5a8b28;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 14px;
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+      background: linear-gradient(90deg, #7ec850, #4a7f23);
+      border: none;
+      border-radius: 22px;
+      cursor: pointer;
+      box-shadow: 0 6px 12px rgba(74, 127, 35, 0.6);
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #5a8b28, #3b5e18);
+    }
+
+    .tree, .cloud, .bush, .rabbit {
+      position: absolute;
+    }
+
+    .tree {
+      bottom: 0; left: 15px; width: 60px; height: 100px;
+      background: linear-gradient(to top, #387d3b, #70b252);
+      border-radius: 30px 30px 10px 10px;
+      box-shadow: inset -8px 0 10px #2e6231;
+    }
+
+    .tree::before {
+      content: ""; bottom: 100%; left: 50%; transform: translateX(-50%);
+      width: 90px; height: 70px;
+      background: linear-gradient(to top, #63b549, #a3d76b);
+      border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+      box-shadow: 0 5px 15px rgba(95, 163, 65, 0.4);
+    }
+
+    .cloud {
+      top: 25px; right: 35px; width: 130px; height: 60px;
+      background: #fff; border-radius: 50px;
+      box-shadow: 30px 0 white, 60px 10px white, 90px 0 white;
+      opacity: 0.85; animation: drift 30s linear infinite;
+    }
+
+    @keyframes drift {
+      0% { right: 35px; }
+      100% { right: 400px; }
+    }
+
+    .bush {
+      bottom: 15px; right: 25px; width: 70px; height: 40px;
+      background: linear-gradient(to top, #4a7f23, #7ec850);
+      border-radius: 50% / 100%;
+      box-shadow: inset -8px 0 12px #3b5e18;
+    }
+
+    .rabbit {
+      bottom: 70px; left: 140px; width: 60px; height: 60px;
+      background: #f5f5f5;
+      border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+      box-shadow: inset 0 5px 10px #dcdcdc;
+    }
+
+    .rabbit::before, .rabbit::after {
+      content: ""; position: absolute; top: 10px; width: 12px; height: 30px;
+      background: #f5f5f5;
+      border-radius: 60% 60% 30% 30% / 90% 90% 40% 40%;
+    }
+
+    .rabbit::before { left: 10px; transform: rotate(-15deg); }
+    .rabbit::after { right: 10px; transform: rotate(15deg); }
+
+    #sharePopup {
+      position: absolute;
+      bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: white;
+      border: 2px solid #7ec850;
+      border-radius: 12px;
+      padding: 10px 15px;
+      display: none;
+      font-size: 14px;
+      color: #2b5329;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_4e8703aef4.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="scene">
+    <h1>Chuyển Văn Bản Thành Giọng Nói - Nhật Đăng</h1>
+
+    <label for="fileName">Tên file:</label>
+    <input type="text" id="fileName" placeholder="Nhập tên file (không có đuôi)..." />
+
+    <label for="inputText">Nhập văn bản:</label>
+    <textarea id="inputText" placeholder="Nhập văn bản vào đây..."></textarea>
+
+    <button id="ttsBtn">Chuyển văn bản thành giọng nói</button>
+    <button id="downloadBtn">Tải âm thanh</button>
+    <button id="shareBtn">Chia sẻ</button>
+    <div id="sharePopup">Trang web Chuyển Văn Bản Thành Giọng Nói - Nhật Đăng:<br><a href="https://nhatdang-0.github.io/chuyen-van-ban-thanh-giong-noi" target="_blank">https://nhatdang-0.github.io/chuyen-van-ban-thanh-giong-noi</a></div>
+
+    <div class="tree"></div>
+    <div class="cloud"></div>
+    <div class="bush"></div>
+    <div class="rabbit"></div>
+  </div>
+
+  <script>
+    const ttsBtn = document.getElementById('ttsBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const shareBtn = document.getElementById('shareBtn');
+    const sharePopup = document.getElementById('sharePopup');
+
+    const inputText = document.getElementById('inputText');
+    const fileNameInput = document.getElementById('fileName');
+
+    ttsBtn.addEventListener('click', () => {
+      const text = inputText.value.trim();
+      const fileName = fileNameInput.value.trim();
+
+      if (!fileName || !text) {
+        alert('Vui lòng nhập tên file và văn bản!');
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'vi-VN';
+      speechSynthesis.speak(utterance);
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      const fileName = fileNameInput.value.trim();
+      const text = inputText.value.trim();
+      if (!fileName || !text) {
+        alert('Vui lòng nhập tên file và văn bản!');
+        return;
+      }
+
+      const blob = new Blob([text], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `${fileName}.txt`;
+      a.click();
+    });
+
+    shareBtn.addEventListener('click', () => {
+      sharePopup.style.display = sharePopup.style.display === 'block' ? 'none' : 'block';
+    });
+  </script>
+</body>
+</html>
