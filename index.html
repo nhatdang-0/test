@@ -30,7 +30,7 @@
       border-radius: 30px;
       box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
       padding: 40px 30px 100px 30px;
-      overflow: hidden;
+      margin: 0;
     }
 
     h1 {
@@ -72,7 +72,6 @@
       border-color: #5a8b28;
     }
 
-    /* Các nút chỉnh màu nền gradient xanh dương sang hồng pastel nhẹ */
     button {
       padding: 12px 16px;
       font-size: 14px;
@@ -94,17 +93,17 @@
       background: linear-gradient(90deg, #5a6bbc, #e66a96);
     }
 
-    /* Riêng 2 nút chính tách biệt */
     #ttsBtn {
       display: block;
       width: 100%;
-      margin-bottom: 15px;
-      margin-top: 15px; /* Đã thêm dòng này để giãn cách với textarea */
+      margin-top: 10px;
+      margin-bottom: 12px;
     }
 
     #downloadBtn {
       display: block;
       width: 100%;
+      margin-top: 8px;
     }
 
     .tree, .cloud, .bush, .rabbit, .bird {
@@ -130,14 +129,10 @@
     }
 
     .corner-links {
-      position: fixed;
-      bottom: 60px; /* lùi xuống hơn trước */
-      left: 20px;
-      right: 20px;
+      margin-top: 20px;
       display: flex;
       justify-content: space-between;
-      z-index: 999;
-      font-size: 17px; /* to hơn chút */
+      font-size: 17px;
     }
 
     .corner-links a,
@@ -162,7 +157,6 @@
       background: linear-gradient(90deg, #5a6bbc, #e66a96);
     }
 
-    /* Icon nút phát nhạc mềm mại kiểu youtube */
     .top-left-controls {
       position: fixed;
       top: 10px;
@@ -190,7 +184,15 @@
       background: linear-gradient(90deg, #5a6bbc, #e66a96);
     }
 
-    /* Icon hình tam giác mềm mại */
+    #playIcon, #pauseIcon {
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .top-left-controls button:active #playIcon,
+    .top-left-controls button:active #pauseIcon {
+      transform: scale(0.95);
+    }
+
     #playIcon {
       width: 0; 
       height: 0; 
@@ -200,13 +202,13 @@
       margin-left: 3px;
     }
 
-    /* Icon pause */
     #pauseIcon {
       display: none;
       width: 12px;
       height: 16px;
       position: relative;
     }
+
     #pauseIcon::before, #pauseIcon::after {
       content: "";
       position: absolute;
@@ -216,9 +218,11 @@
       background: white;
       border-radius: 2px;
     }
+
     #pauseIcon::before {
       left: 0;
     }
+
     #pauseIcon::after {
       right: 0;
     }
@@ -227,29 +231,27 @@
       width: 100px;
       cursor: pointer;
       opacity: 0.7;
-      transition: opacity 0.3s ease;
-    }
-    #volumeControl:hover {
-      opacity: 1;
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
-    /* Footer lùi xuống thấp hơn, canh giữa ngang */
+    #volumeControl:hover {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
     footer.footer {
-      position: absolute;
-      bottom: 10px;
-      width: 100%;
       text-align: center;
       color: #2b5329;
       font-size: 14px;
       font-weight: 600;
       user-select: none;
+      margin-top: 40px;
     }
-
   </style>
 </head>
 <body>
   <audio loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
+    <source src="https://github.com/nhatdang-0/chuyen-van-ban-thanh-giong-noi/raw/main/nhacnen.mp3" type="audio/mpeg" />
   </audio>
 
   <div class="top-left-controls">
@@ -301,7 +303,7 @@
   </div>
 
   <script>
-    const audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'); // Thay link nhạc
+    const audio = new Audio('https://github.com/nhatdang-0/chuyen-van-ban-thanh-giong-noi/raw/main/nhacnen.mp3');
     audio.loop = true;
     audio.volume = document.getElementById('volumeControl').value;
 
@@ -310,15 +312,27 @@
     const pauseIcon = document.getElementById('pauseIcon');
     const volumeControl = document.getElementById('volumeControl');
 
-    playPauseBtn.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play();
+    function updateIcon(isPlaying) {
+      if (isPlaying) {
+        playIcon.style.opacity = 0;
+        pauseIcon.style.opacity = 1;
         playIcon.style.display = 'none';
         pauseIcon.style.display = 'block';
       } else {
-        audio.pause();
-        playIcon.style.display = 'block';
+        pauseIcon.style.opacity = 0;
+        playIcon.style.opacity = 1;
         pauseIcon.style.display = 'none';
+        playIcon.style.display = 'block';
+      }
+    }
+
+    playPauseBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        updateIcon(true);
+      } else {
+        audio.pause();
+        updateIcon(false);
       }
     });
 
@@ -326,7 +340,15 @@
       audio.volume = volumeControl.value;
     });
 
-    // Các nút khác chưa gán chức năng để bạn tiện thêm
+    const shareBtn = document.getElementById('shareBtn');
+    shareBtn.addEventListener('click', () => {
+      const text = "Trang web Chuyển Văn Bản Thành Giọng Nói - Nhật Đăng thuộc ND Co., Ltd: https://nhatdang-0.github.io/chuyen-van-ban-thanh-giong-noi/";
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Đã sao chép nội dung chia sẻ vào bộ nhớ tạm!");
+      }).catch(() => {
+        alert("Không thể sao chép. Trình duyệt không hỗ trợ.");
+      });
+    });
   </script>
 </body>
 </html>
