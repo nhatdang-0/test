@@ -296,6 +296,30 @@
       pointer-events: none;
       transition: opacity 0.5s ease;
     }
+
+    <div id="copyMessage">
+      Đã sao chép nội dung chia sẻ vào bộ nhớ tạm!
+    </div>
+
+    #copyMessage {
+      position: fixed;
+      top: 60%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(106, 137, 204, 0.9); /* màu xanh nhẹ khác biệt với welcome */
+      padding: 20px 30px;
+      border-radius: 18px;
+      font-size: 17px;
+      font-weight: 700;
+      color: white;
+      text-align: center;
+      font-family: 'Comfortaa', cursive, sans-serif;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      z-index: 99999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
   </style>
 </head>
 <body>
@@ -392,11 +416,14 @@
   });
 
   // Nút chia sẻ
-  const shareBtn = document.getElementById('shareBtn');
   shareBtn.addEventListener('click', () => {
     const text = "Trang web Chuyển Văn Bản Thành Giọng Nói - Nhật Đăng thuộc ND Co., Ltd: https://nhatdang-0.github.io/chuyen-van-ban-thanh-giong-noi/";
     navigator.clipboard.writeText(text).then(() => {
-      alert("Đã sao chép nội dung chia sẻ vào bộ nhớ tạm!");
+      const copyMsg = document.getElementById('copyMessage');
+      copyMsg.style.opacity = '1';
+      setTimeout(() => {
+        copyMsg.style.opacity = '0';
+      }, 3000);
     }).catch(() => {
       alert("Không thể sao chép. Trình duyệt không hỗ trợ.");
     });
