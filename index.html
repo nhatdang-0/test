@@ -297,25 +297,21 @@
       transition: opacity 0.5s ease;
     }
 
-    <div id="copyMessage">
-      Đã sao chép nội dung chia sẻ vào bộ nhớ tạm!
-    </div>
-
     #copyMessage {
       position: fixed;
-      top: 60%;
+      top: 20%;
       left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(106, 137, 204, 0.9); /* màu xanh nhẹ khác biệt với welcome */
+      transform: translateX(-50%);
+      background: rgba(106, 137, 204, 0.9); /* màu nền xanh pastel nhẹ */
       padding: 20px 30px;
       border-radius: 18px;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 700;
       color: white;
       text-align: center;
       font-family: 'Comfortaa', cursive, sans-serif;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      z-index: 99999;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+      z-index: 99998;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.5s ease;
@@ -429,7 +425,7 @@
     });
   });
 
-  // Hiển thị thông báo chào mừng 3 giây
+  // Hiển thị thông báo chào mừng  giây
   window.addEventListener('load', () => {
     const welcome = document.getElementById('welcomeMessage');
     welcome.style.opacity = '1';
@@ -442,6 +438,9 @@
   <div id="welcomeMessage">
     ND Co., Ltd cảm ơn bạn đã sử dụng trang web!<br />
     Trang web có nhạc nền, bạn hãy mở lên và thưởng thức nhé.
+  </div>
+  <div id="copyMessage">
+    Đã sao chép nội dung chia sẻ vào bộ nhớ tạm!
   </div>
 </body>
 </html>
