@@ -346,7 +346,10 @@
       <textarea id="inputText" placeholder="Nhập văn bản vào đây..."></textarea>
 
       <button id="ttsBtn">Chuyển văn bản thành giọng nói</button>
-      <button id="downloadBtn">Tải âm thanh</button>
+      <p style="color: gray; font-size: 14px; margin-top: 10px; font-style: italic;">
+        Chúng tôi chưa hỗ trợ tải âm thanh. Bạn có thể ghi màn hình rồi tách âm thanh ra.<br>
+        Chúng tôi chân thành xin lỗi vì sự bất tiện này!
+      </p>
 
       <div class="corner-links">
         <a href="https://nhatdang-0.github.io" target="_blank" aria-label="Trang Chủ">
@@ -384,7 +387,6 @@
   // Xử lý chuyển văn bản thành giọng nói
   const ttsBtn = document.getElementById('ttsBtn');
   const inputText = document.getElementById('inputText');
-  const downloadBtn = document.getElementById('downloadBtn');
   const fileNameInput = document.getElementById('fileName');
 
   ttsBtn.addEventListener('click', () => {
@@ -457,33 +459,6 @@
     }, 5000);
   });
 
-  async function speakAndRecord(text, fileName) {
-    if (!text) {
-      alert("Vui lòng nhập văn bản trước khi tải âm thanh.");
-      return;
-    }
-
-    const synth = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'vi-VN';
-
-    // Tạo AudioContext và kết nối
-    const audioContext = new AudioContext();
-    const destination = audioContext.createMediaStreamDestination();
-    const mediaRecorder = new MediaRecorder(destination.stream);
-    const chunks = [];
-
-    mediaRecorder.ondataavailable = e => chunks.push(e.data);
-    mediaRecorder.onstop = () => {
-      const blob = new Blob(chunks, { type: 'audio/webm' }); // mp3 không hỗ trợ trực tiếp
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = (fileName || 'tts-audio') + '.webm'; // mp3 nếu convert sau
-      a.click();
-      URL.revokeObjectURL(url);
-    };
-
     const source = audioContext.createMediaStreamSource(destination);
 
     // Tạo SpeechSynthesis → Audio → Destination
@@ -511,13 +486,6 @@
       }, 300); // delay nhỏ để chắc chắn thu xong
     };
   }
-
-  downloadBtn.addEventListener('click', () => {
-    const text = inputText.value.trim();
-    const fileName = fileNameInput.value.trim().replace(/\s+/g, '_') || 'tts-audio';
-
-    speakAndRecord(text, fileName);
-  });
 </script>
   <div id="welcomeMessage">
     ND Co., Ltd cảm ơn bạn đã sử dụng trang web!<br />
