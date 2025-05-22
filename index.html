@@ -316,6 +316,26 @@
       pointer-events: none;
       transition: opacity 0.5s ease;
     }
+
+    #copyFailMessage {
+      position: fixed;
+      top: 60%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 100, 100, 0.9); /* màu đỏ nhạt cho lỗi */
+      padding: 20px 30px;
+      border-radius: 18px;
+      font-size: 17px;
+      font-weight: 700;
+      color: white;
+      text-align: center;
+      font-family: 'Comfortaa', cursive, sans-serif;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      z-index: 99999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
   </style>
 </head>
 <body>
@@ -477,7 +497,11 @@
         copyMsg.style.opacity = '0';
       }, 3000);
     }).catch(() => {
-      alert("Không thể sao chép. Trình duyệt không hỗ trợ.");
+      const failMsg = document.getElementById('copyFailMessage');
+      failMsg.style.opacity = '1';
+      setTimeout(() => {
+        failMsg.style.opacity = '0';
+      }, 3000);
     });
   });
 
@@ -498,6 +522,10 @@
 
   <div id="copyMessage">
     Đã sao chép nội dung chia sẻ vào bộ nhớ tạm!
+  </div>
+
+  <div id="copyFailMessage">
+    Không thể sao chép. Trình duyệt không hỗ trợ hoặc có lỗi!
   </div>
 </body>
 </html>
