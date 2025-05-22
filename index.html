@@ -384,6 +384,8 @@
   // Xử lý chuyển văn bản thành giọng nói
   const ttsBtn = document.getElementById('ttsBtn');
   const inputText = document.getElementById('inputText');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const fileNameInput = document.getElementById('fileName');
 
   ttsBtn.addEventListener('click', () => {
     const text = inputText.value.trim();
@@ -453,6 +455,68 @@
     setTimeout(() => {
       welcome.style.opacity = '0';
     }, 5000);
+  });
+
+  async function speakAndRecord(text, fileName) {
+    if (!text) {
+      alert("Vui lòng nhập văn bản trước khi tải âm thanh.");
+      return;
+    }
+
+    const synth = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'vi-VN';
+
+    // Tạo AudioContext và kết nối
+    const audioContext = new AudioContext();
+    const destination = audioContext.createMediaStreamDestination();
+    const mediaRecorder = new MediaRecorder(destination.stream);
+    const chunks = [];
+
+    mediaRecorder.ondataavailable = e => chunks.push(e.data);
+    mediaRecorder.onstop = () => {
+      const blob = new Blob(chunks, { type: 'audio/webm' }); // mp3 không hỗ trợ trực tiếp
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = (fileName || 'tts-audio') + '.webm'; // mp3 nếu convert sau
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+
+    const source = audioContext.createMediaStreamSource(destination);
+
+    // Tạo SpeechSynthesis → Audio → Destination
+    const utterSource = audioContext.createMediaStreamDestination();
+    const synthUtterance = new SpeechSynthesisUtterance(text);
+    synthUtterance.lang = 'vi-VN';
+
+    const speechAudio = new SpeechSynthesisUtterance(text);
+    const originalSpeak = speechSynthesis.speak;
+
+    // Sử dụng công cụ tạo giọng nói từ Google Chrome
+    const audio = new Audio();
+    const voices = synth.getVoices().filter(v => v.lang.startsWith('vi'));
+    if (voices.length) utterance.voice = voices[0];
+
+    const ttsAudio = new SpeechSynthesisUtterance(text);
+    const utter = utterance;
+    const utterStream = destination;
+
+    mediaRecorder.start();
+    speechSynthesis.speak(utter);
+    utter.onend = () => {
+      setTimeout(() => {
+        mediaRecorder.stop();
+      }, 300); // delay nhỏ để chắc chắn thu xong
+    };
+  }
+
+  downloadBtn.addEventListener('click', () => {
+    const text = inputText.value.trim();
+    const fileName = fileNameInput.value.trim().replace(/\s+/g, '_') || 'tts-audio';
+
+    speakAndRecord(text, fileName);
   });
 </script>
   <div id="welcomeMessage">
