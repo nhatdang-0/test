@@ -482,15 +482,15 @@
     const text = "Trang web Chuyển Văn Bản Thành Giọng Nói - Nhật Đăng thuộc ND Co., Ltd: https://nhatdang-0.github.io/chuyen-van-ban-thanh-giong-noi/\nTrang chủ của ND Co., Ltd: https://nhatdang-0.github.io/";
     navigator.clipboard.writeText(text).then(() => {
       const copyMsg = document.getElementById('copyMessage');
-      copyMsg.style.opacity = '1';
+      copyMsg.classList.add('show');
       setTimeout(() => {
-        copyMsg.style.opacity = '0';
+        copyMsg.classList.remove('show');
       }, 3000);
     }).catch(() => {
       const failMsg = document.getElementById('copyFailMessage');
-      failMsg.style.opacity = '1';
+      failMsg.classList.add('show');
       setTimeout(() => {
-        failMsg.style.opacity = '0';
+        failMsg.classList.remove('show');
       }, 3000);
     });
   });
