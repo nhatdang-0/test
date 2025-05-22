@@ -340,6 +340,15 @@
       <h1>Chuyển Văn Bản Thành Giọng Nói - Nhật Đăng</h1>
 
       <label for="fileName">Tên file:</label>
+      <!--
+      <input
+        type="text"
+        id="fileName"
+        placeholder="Nhập tên file (không có đuôi)..."
+        style="width: 100%; padding: 12px 14px; font-size: 16px; border-radius: 18px; border: 2px solid #89b362; font-family: 'Comfortaa', cursive, sans-serif;"
+        title="Nhập tên file để tải âm thanh về với tên được nhập"
+      />
+      -->
       <input
         type="text"
         id="fileName"
@@ -359,13 +368,22 @@
       <button id="downloadBtn" disabled
         style="margin-top: 10px; width: 100%; padding: 12px 16px; font-size: 14px; font-weight: 700; 
                color: white; background: gray; border: 1px solid black; border-radius: 20px; cursor: not-allowed;"
-        title="Chức năng tải âm thanh chưa phát triển, tạm thời bị khóa">
+        title="Chức năng tạm thời bị khóa">
         Tải âm thanh (chưa khả dụng)
       </button>
       <p style="color: gray; font-size: 14px; margin-top: 8px; font-style: italic;">
         Chúng tôi chưa hỗ trợ tải âm thanh. Bạn có thể ghi màn hình rồi tách âm thanh ra.<br>
         Chúng tôi chân thành xin lỗi vì sự bất tiện này!
       </p>
+      <!-- ode mở khóa nút:
+      <button id="downloadBtn" 
+        style="margin-top: 10px; width: 100%; padding: 12px 16px; font-size: 14px; font-weight: 700; 
+               color: white; background: linear-gradient(90deg, #6a89cc, #f78fb3); border: 1px solid black; 
+               border-radius: 20px; cursor: pointer;"
+        title="Tải âm thanh">
+        Tải âm thanh
+      </button>
+      -->
 
       <div class="corner-links">
         <a href="https://nhatdang-0.github.io" target="_blank" aria-label="Trang Chủ">
