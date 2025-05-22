@@ -458,34 +458,6 @@
       welcome.style.opacity = '0';
     }, 5000);
   });
-
-    const source = audioContext.createMediaStreamSource(destination);
-
-    // Tạo SpeechSynthesis → Audio → Destination
-    const utterSource = audioContext.createMediaStreamDestination();
-    const synthUtterance = new SpeechSynthesisUtterance(text);
-    synthUtterance.lang = 'vi-VN';
-
-    const speechAudio = new SpeechSynthesisUtterance(text);
-    const originalSpeak = speechSynthesis.speak;
-
-    // Sử dụng công cụ tạo giọng nói từ Google Chrome
-    const audio = new Audio();
-    const voices = synth.getVoices().filter(v => v.lang.startsWith('vi'));
-    if (voices.length) utterance.voice = voices[0];
-
-    const ttsAudio = new SpeechSynthesisUtterance(text);
-    const utter = utterance;
-    const utterStream = destination;
-
-    mediaRecorder.start();
-    speechSynthesis.speak(utter);
-    utter.onend = () => {
-      setTimeout(() => {
-        mediaRecorder.stop();
-      }, 300); // delay nhỏ để chắc chắn thu xong
-    };
-  }
 </script>
   <div id="welcomeMessage">
     ND Co., Ltd cảm ơn bạn đã sử dụng trang web!<br />
