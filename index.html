@@ -306,10 +306,10 @@
     #copyMessage,
     #copyFailMessage {
       position: fixed;
-      top: 60%;
+      bottom: 10%;
       left: 50%;
-      transform: translate(-50%, 0);
-      background: rgba(106, 137, 204, 0.9); /* màu xanh nhẹ khác biệt với welcome */
+      transform: translateX(-50%);
+      background: rgba(106, 137, 204, 0.9);
       padding: 20px 30px;
       border-radius: 18px;
       font-size: 17px;
@@ -328,7 +328,7 @@
     #copyFailMessage.show {
       opacity: 1;
       visibility: visible;
-      transform: translate(-50%, -50%) scale(1.02);
+      transform: translateX(-50%) scale(1.02);
     }
   </style>
 </head>
